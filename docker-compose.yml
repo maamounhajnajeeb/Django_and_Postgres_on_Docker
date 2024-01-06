@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: django_app
+    build: .
+    command: python API/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./API:/code/API:ro
+    ports:
+      - 8000:8000
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=Maamoun
+      - DB_PASS=sv_gtab101enter
+    depends_on:
+      - db
+  
+  db: # this name must be the same in DB_HOST
+    container_name: db_app
+    image: postgres:16.1-alpine
+    restart: always
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: devdb
+      POSTGRES_USER: Maamoun
+      POSTGRES_PASSWORD: sv_gtab101enter
+  
+  adminer:
+    image: adminer
+    container_name: adminer_app
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  postgres-db:
+
+
+
+
+  # db: # this name must be the same in DB_HOST
+  #   container_name: db_app
+  #   image: postgis/postgis:16.3.4-alpine
+  #   restart: always
+  #   volumes:
+  #     - postgres-db:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: devdb
+  #     POSTGRES_USER: Maamoun
+  #     POSTGRES_PASSWORD: sv_gtab101enter
+  
